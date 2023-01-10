@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { resolve } from 'path';
+import { User } from '../users/user.entity';
 
 export const getPostgresConfig = async (
   configService: ConfigService,
@@ -12,7 +12,7 @@ export const getPostgresConfig = async (
     username: configService.get('POSTGRES_USER'),
     password: configService.get('POSTGRES_PASSWORD'),
     database: configService.get('POSTGRES_DB'),
-    entities: [resolve(__dirname, '../**/*.entity.ts')],
+    entities: [User],
     synchronize: true,
   };
 };
