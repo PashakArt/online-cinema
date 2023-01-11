@@ -1,7 +1,16 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  HttpCode,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { ALREADY_REGISTERED_ERROR } from './auth.constants';
 import { AuthService } from './auth.service';
 import { RegistrationDto } from './dto/registration.dto';
+import { LocalAuthGuard } from './guards/local-auth.guards';
 
 @Controller('auth')
 export class AuthController {
@@ -14,5 +23,12 @@ export class AuthController {
       throw new BadRequestException(ALREADY_REGISTERED_ERROR);
     }
     return this.authService.register(registrationDto);
+  }
+
+  @Post('login')
+  @HttpCode(200)
+  @UseGuards(LocalAuthGuard)
+  async login(@Req() req) {
+    return this.authService.login(req.email);
   }
 }
