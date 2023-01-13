@@ -6,6 +6,8 @@ import {
   Post,
   Req,
   UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ALREADY_REGISTERED_ERROR } from './auth.constants';
 import { AuthService } from './auth.service';
@@ -17,6 +19,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
+  @UsePipes(new ValidationPipe())
   async register(@Body() registrationDto: RegistrationDto) {
     const oldUser = await this.authService.findUser(registrationDto.email);
     if (oldUser) {
