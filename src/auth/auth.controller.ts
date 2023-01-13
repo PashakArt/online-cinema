@@ -1,11 +1,13 @@
 import {
   BadRequestException,
   Body,
+  ClassSerializerInterceptor,
   Controller,
   HttpCode,
   Post,
   Req,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -20,6 +22,7 @@ export class AuthController {
 
   @Post('register')
   @UsePipes(new ValidationPipe())
+  @UseInterceptors(ClassSerializerInterceptor)
   async register(@Body() registrationDto: RegistrationDto) {
     const oldUser = await this.authService.findUser(registrationDto.email);
     if (oldUser) {

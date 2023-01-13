@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
+import { Review } from 'src/review/review.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class User {
@@ -12,5 +14,9 @@ export class User {
   username: string;
 
   @Column()
+  @Exclude()
   passwordHash: string;
+
+  @OneToMany(() => Review, (review: Review) => review.author)
+  reviews: Review[];
 }

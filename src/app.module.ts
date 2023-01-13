@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getPostgresConfig } from './configs/postgres.config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { ReviewModule } from './review/review.module';
+import { MovieModule } from './movie/movie.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { AuthModule } from './auth/auth.module';
     }),
     UsersModule,
     AuthModule,
+    ReviewModule,
+    MovieModule,
   ],
 })
 export class AppModule {}
