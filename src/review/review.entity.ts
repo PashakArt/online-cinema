@@ -1,11 +1,11 @@
 import { User } from '../users/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Movie } from 'src/movie/movie.entity';
+import { Movie } from '../movie/movie.entity';
 
 @Entity()
 export class Review {
   @PrimaryGeneratedColumn()
-  id?: number;
+  id: number;
 
   @ManyToOne(() => User, (author: User) => author.reviews)
   author: User;
@@ -13,9 +13,9 @@ export class Review {
   @ManyToOne(() => Movie, (movie: Movie) => movie.reviews)
   movie: Movie;
 
-  @Column()
+  @Column( { unique: true })
   title: string;
 
-  @Column()
+  @Column({ length: 1000 })
   description: string;
 }

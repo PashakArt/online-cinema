@@ -1,11 +1,11 @@
 import { Exclude } from 'class-transformer';
-import { Review } from 'src/review/review.entity';
+import { Review } from '../review/review.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id?: number;
+  id: number;
 
   @Column({ unique: true })
   email: string;
