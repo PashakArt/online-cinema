@@ -13,7 +13,7 @@ export class Review {
   @ManyToOne(() => Movie, (movie: Movie) => movie.reviews)
   movie: Movie;
 
-  @Column( { unique: true })
+  @Column({ unique: true })
   title: string;
 
   @Column({ length: 1000 })

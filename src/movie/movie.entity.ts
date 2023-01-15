@@ -1,6 +1,7 @@
 import { Director } from '../director/director.entity';
 import { Review } from '../review/review.entity';
 import {
+  Column,
   Entity,
   JoinTable,
   ManyToMany,
@@ -8,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Actor } from '../actor/actor.entity';
+import { Genre } from './enums/genre.enum';
 
 @Entity()
 export class Movie {
@@ -23,5 +25,12 @@ export class Movie {
 
   @ManyToMany(() => Actor)
   @JoinTable()
-  actors: Actor[]
+  actors: Actor[];
+
+  @Column({
+    type: 'enum',
+    enum: Genre,
+    array: true,
+  })
+  genres: Genre[];
 }

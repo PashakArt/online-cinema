@@ -1,30 +1,20 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
-
-enum Gender {
-    Female = 'female',
-    Male = 'male',
-}
-
+import { Gender } from './enums/gender.enum';
 
 @Entity()
 export class Actor {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column()
+  firstName: string;
 
-    @Column()
-    firstName: string;
+  @Column()
+  lastName: string;
 
-    @Column()
-    lastName: string;
-
-    @Column( {
-        type: 'enum',
-        enum: Gender
-    } )
-    gender: Gender;
-
-
-
+  @Column({
+    type: 'enum',
+    enum: Gender,
+  })
+  gender: Gender;
 }
