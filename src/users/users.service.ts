@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { genSaltSync, hash } from 'bcrypt';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
@@ -21,5 +22,11 @@ export class UsersService {
 
   async findByEmail(email: string) {
     return this.usersRepository.findOneBy({ email });
+  }
+
+  async setRefreshToken(email: string, refreshToken: string) {
+    const salt = genSaltSync(10);
+    const refreshTokenHash = await hash(refreshToken, salt);
+    await this.usersRepository.update({ email }, { refreshTokenHash });
   }
 }

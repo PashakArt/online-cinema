@@ -1,4 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { compare, genSaltSync, hash } from 'bcrypt';
 import { UsersService } from '../users/users.service';
@@ -10,6 +11,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async register({ email, password, username }: RegistrationDto) {
@@ -22,12 +24,8 @@ export class AuthService {
     });
   }
 
-  async findUser(email: string) {
-    return this.usersService.findByEmail(email);
-  }
-
   async validateUser(email: string, password: string) {
-    const user = await this.findUser(email);
+    const user = await this.usersService.findByEmail(email);
     if (!user) {
       throw new UnauthorizedException(USER_NOT_FOUND_ERROR);
     }
@@ -38,10 +36,20 @@ export class AuthService {
     return { email };
   }
 
+  async findUser(email: string) {
+    return this.usersService.findByEmail(email);
+  }
+
   async login(email: string) {
     const payload = { email };
+    const refresh_token = this.jwtService.sign(payload, {
+      secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET'),
+      expiresIn: this.configService.get('JWT_REFRESH_TOKEN_EXPIRATION_TIME'),
+    });
+    await this.usersService.setRefreshToken(email, refresh_token);
     return {
       access_token: this.jwtService.sign(payload),
+      refresh_token,
     };
   }
 }

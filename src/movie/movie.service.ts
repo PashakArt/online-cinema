@@ -5,19 +5,20 @@ import { Movie } from './movie.entity';
 
 @Injectable()
 export class MovieService {
-    constructor(
-        @InjectRepository(Movie) private readonly movieRepository: Repository<Movie>
-    ) {}
+  constructor(
+    @InjectRepository(Movie)
+    private readonly movieRepository: Repository<Movie>,
+  ) {}
 
-    async addMovie() {}
+  async addMovie() {}
 
-    async removeMovie() {}
+  async removeMovie() {}
 
-    async updateMove() {}
+  async updateMove() {}
 
-    async findByGenre() {}
+  async findByGenre() {}
 
-    async findByDirector() {}
+  async findByDirector() {}
 
-    async findByActor() {}
+  async findByActor() {}
 }

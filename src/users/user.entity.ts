@@ -27,4 +27,8 @@ export class User {
     default: Role.User,
   })
   role: Role;
+
+  @Column({ nullable: true })
+  @Exclude()
+  refreshTokenHash: string;
 }
